@@ -1,6 +1,17 @@
 version: "3"
 services:
-  db:
+  node_1:
+    build: ./node
+    environment: 
+      - DB_HOST=db_1
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_NAME=postgres
+      - DB_PASSWORD=secret
+      - PORT=9000
+    depends_on: 
+      - db_1
+  db_1:
     image: postgres
     restart: always
     environment:
