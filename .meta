@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "node": "https://github.com/blinfoldking/blockchain-go-node",
+    "pool": "https://github.com/blinfoldking/blockchain-go-pool"
+  }
+}
