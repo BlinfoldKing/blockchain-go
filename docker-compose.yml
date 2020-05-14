@@ -1,13 +1,5 @@
 version: "3"
 services:
-  pool:
-    tty: true
-    build: ./pool
-    environment: 
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    ports:
-      - "3000:3000"
   redis:
     image: "redis:alpine"
     ports:
@@ -20,11 +12,13 @@ services:
       - DB_USER=postgres
       - DB_NAME=postgres
       - DB_PASSWORD=secret
+      - SELF_URL=node_1:9000
       - PORT=9000
     depends_on: 
       - db_1
     ports:
       - "9100:9000"
+      - "3100:3000"
   db_1:
     image: postgres
     restart: always
@@ -39,6 +33,7 @@ services:
       - DB_USER=postgres
       - DB_NAME=postgres
       - DB_PASSWORD=secret
+      - SELF_URL=node_2:9000
       - PORT=9000
     depends_on: 
       - db_2
@@ -58,6 +53,7 @@ services:
       - DB_USER=postgres
       - DB_NAME=postgres
       - DB_PASSWORD=secret
+      - SELF_URL=node_3:9000
       - PORT=9000
     depends_on: 
       - db_3
@@ -75,3 +71,16 @@ services:
     restart: always
     ports:
       - 8080:8080
+  pool:
+    tty: true
+    build: ./pool
+    environment: 
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SELF_URL=pool:9000
+      - PORT=9000
+    ports:
+      - "3000:3000"
+      - "5000:9000"
+    depends_on:
+      - redis
