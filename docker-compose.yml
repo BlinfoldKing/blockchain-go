@@ -4,7 +4,12 @@ services:
     image: "redis:alpine"
     ports:
      - "6379:6379"
+  # redis_2:
+  #   image: "redis:alpine"
+  #   ports:
+  #    - "6380:6379"
   node_1:
+    tty: true
     build: ./node
     environment: 
       - DB_HOST=db_1
@@ -84,3 +89,16 @@ services:
       - "5000:9000"
     depends_on:
       - redis
+  # pool_2:
+  #   tty: true
+  #   build: ./pool
+  #   environment: 
+  #     - REDIS_HOST=redis_2
+  #     - REDIS_PORT=6379
+  #     - SELF_URL=pool_2:9000
+  #     - PORT=9000
+  #   ports:
+  #     - "3500:3000"
+  #     - "5100:9000"
+  #   depends_on:
+  #     - redis
